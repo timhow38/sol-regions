@@ -1,0 +1,44 @@
+{
+	"schemaVersion": 1,
+	"id": "solregions",
+	"version": "${version}",
+	"name": "SOL - Regions",
+	"description": "Create custom banners to notify players when entering an area.",
+	"authors": [
+		"thepond"
+	],
+	"contact": {
+		"website": "https://www.fiverr.com/thepond",
+		"discord": "thepond"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/solregions/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"me.thepond.solregions.SOLRegions"
+		],
+		"client": [
+			"me.thepond.solregions.SOLRegionsClient"
+		],
+		"modmenu": [
+			"me.thepond.solregions.SOLRegionsClient"
+        ]
+	},
+	"mixins": [
+		"solregions.mixins.json",
+		{
+			"config": "solregions.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.15.11",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
