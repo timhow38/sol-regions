@@ -33,7 +33,7 @@ import java.util.List;
 public class ModCommands implements CommandRegistrationCallback {
     @Override
     public void register(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, CommandManager.RegistrationEnvironment environment) {
-        dispatcher.register(CommandManager.literal("sol").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
+        dispatcher.register(CommandManager.literal("sol").then(CommandManager.literal("regions").requires(serverCommandSource -> serverCommandSource.hasPermissionLevel(2))
                 .then(CommandManager.literal("create").then(CommandManager.argument("name", StringArgumentType.string()).then(CommandManager.argument("description", StringArgumentType.string()).executes(context -> {
                     String name = StringArgumentType.getString(context, "name");
                     String description = StringArgumentType.getString(context, "description");
@@ -286,7 +286,7 @@ public class ModCommands implements CommandRegistrationCallback {
                     }, true);
                     return 1;
                 }))))
-        );
+        ));
     }
 
     private SuggestionProvider<ServerCommandSource> getPlayerYLevelSuggestions() {
