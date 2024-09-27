@@ -1,5 +1,6 @@
 package me.thepond.solregions;
 
+import me.thepond.solregions.utils.SHA256Hex;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
@@ -7,7 +8,6 @@ import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.texture.NativeImage;
 import net.minecraft.client.texture.NativeImageBackedTexture;
 import net.minecraft.util.Identifier;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -47,7 +47,8 @@ public class TextureLoader {
                     Identifier identifier = new Identifier(SOLRegions.MOD_ID, "banners/" + name);
                     MinecraftClient.getInstance().getTextureManager().registerTexture(identifier, texture);
                     textureMap.put(name.replace(".png", ""), identifier);
-                    textureHashes.put(name.replace(".png", ""), DigestUtils.sha256Hex(Files.readAllBytes(file.toPath())));
+
+                    textureHashes.put(name.replace(".png", ""), SHA256Hex.fileToSha256Hex(file));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -62,7 +63,7 @@ public class TextureLoader {
             Identifier identifier = new Identifier(SOLRegions.MOD_ID, "banners/" + name);
             MinecraftClient.getInstance().getTextureManager().registerTexture(identifier, texture);
             textureMap.put(name, identifier);
-            textureHashes.put(name, DigestUtils.sha256Hex(bytes));
+            textureHashes.put(name, SHA256Hex.bytesToSha256Hex(bytes));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -75,7 +76,7 @@ public class TextureLoader {
             Identifier identifier = new Identifier(SOLRegions.MOD_ID, "banners/" + name + ".png");
             MinecraftClient.getInstance().getTextureManager().registerTexture(identifier, texture);
             textureMap.put(name, identifier);
-            textureHashes.put(name, DigestUtils.sha256Hex(bytes));
+            textureHashes.put(name, SHA256Hex.bytesToSha256Hex(bytes));
 
             Path texturePath = BANNERS_FOLDER.resolve(name + ".png");
             Files.write(texturePath, bytes);
@@ -120,7 +121,7 @@ public class TextureLoader {
 
             // Compute SHA-256 hash
             byte[] imageBytes = baos.toByteArray();
-            String hash = DigestUtils.sha256Hex(imageBytes);
+            String hash = SHA256Hex.bytesToSha256Hex(imageBytes);
 
             Files.deleteIfExists(tempFile);
 
