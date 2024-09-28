@@ -151,7 +151,7 @@ public class RenderBannerEvent implements HudRenderCallback, ScreenEvents.AfterR
         matrixStack.translate(titleX, titleY, 0f);
         matrixStack.scale(titleScale, titleScale, 1.0f);
         drawContext.drawTextWithShadow(textRenderer, title, 0, 0, 0xFFFFFF);
-        RenderRegionEvent.TEXT.invoker().onText(drawContext, region);
+        if (region != null) RenderRegionEvent.TEXT.invoker().onText(drawContext, region);
         matrixStack.pop();
     }
 
