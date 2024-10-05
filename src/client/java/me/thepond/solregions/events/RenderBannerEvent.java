@@ -18,10 +18,15 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
+
 public class RenderBannerEvent implements HudRenderCallback, ScreenEvents.AfterRender {
 
     private static final Identifier BANNER_TEXTURE = new Identifier(SOLRegions.MOD_ID, "textures/gui/banner.png");
 
+    private static final HashMap<String, Instant> lastTimePerRegion = new HashMap<>();
     private static Region currentRegion;
     private static int regionEnterTicks = 0;
 
@@ -31,7 +36,16 @@ public class RenderBannerEvent implements HudRenderCallback, ScreenEvents.AfterR
 
     public static void enterRegion(Region region) {
         currentRegion = region;
+
+        if (lastTimePerRegion.containsKey(region.getRegionName())) {
+            if (ChronoUnit.HOURS.between(lastTimePerRegion.get(region.getRegionName()), Instant.now()) < 24) {
+                regionEnterTicks = 0;
+                return;
+            }
+        }
+
         regionEnterTicks = FADE_IN_DURATION + STAY_DURATION + FADE_OUT_DURATION;
+        lastTimePerRegion.put(region.getRegionName(), Instant.now());
     }
 
     public static void leaveRegion() {
