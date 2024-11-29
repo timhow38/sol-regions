@@ -16,13 +16,13 @@
 	"environment": "*",
 	"entrypoints": {
 		"main": [
-			"me.thepond.solregions.SOLRegions"
+          "me.thepond.solregions.SOLRegions"
 		],
 		"client": [
-			"me.thepond.solregions.SOLRegionsClient"
+          "me.thepond.solregions.SOLRegionsClient"
 		],
 		"modmenu": [
-			"me.thepond.solregions.SOLRegionsClient"
+          "me.thepond.solregions.SOLRegionsClient"
         ]
 	},
 	"mixins": [

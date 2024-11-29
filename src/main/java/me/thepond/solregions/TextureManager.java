@@ -1,9 +1,9 @@
 package me.thepond.solregions;
 
+import me.thepond.solregions.utils.SHA256Hex;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.network.PacketByteBuf;
-import org.apache.commons.codec.digest.DigestUtils;
 
 import java.io.File;
 import java.io.IOException;
@@ -52,7 +52,7 @@ public class TextureManager {
         buf.writeInt(textureMap.size());
         textureMap.forEach((name, data) -> {
             buf.writeString(name);
-            buf.writeString(DigestUtils.sha256Hex(data));
+            buf.writeString(SHA256Hex.bytesToSha256Hex(data));
         });
         cachedPacketByteBuf = buf;
         return buf;
@@ -63,7 +63,7 @@ public class TextureManager {
     }
 
     public static boolean hasTexture(String name, String hash) {
-        return textureMap.containsKey(name) && DigestUtils.sha256Hex(textureMap.get(name)).equals(hash);
+        return textureMap.containsKey(name) && SHA256Hex.bytesToSha256Hex(textureMap.get(name)).equals(hash);
     }
 
     public static boolean hasTexture(String name) {
@@ -75,6 +75,6 @@ public class TextureManager {
     }
 
     public static String getTextureHash(String name) {
-        return DigestUtils.sha256Hex(textureMap.get(name));
+        return SHA256Hex.bytesToSha256Hex(textureMap.get(name));
     }
 }
